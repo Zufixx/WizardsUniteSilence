@@ -156,13 +156,18 @@ function drawLoop( time ) {
     document.getElementById("volume").innerHTML = ("Volume: " + Math.round(meter.volume * 100) / 100);
     //console.log(avg);
 
-    if (avg > CLIPPING_LIMIT) {
+    if (meter.volume > sensitivity) {
         canvasContext.fillStyle = "red";
+    }
+    else {
+        canvasContext.fillStyle = "green";
+    }
+
+    if (avg > CLIPPING_LIMIT) {
         currentWizards = angryWizards;
         setWizardMood("Angry");
     }
     else {
-        canvasContext.fillStyle = "green";
         currentWizards = happyWizards;
         setWizardMood("Happy");
     }
