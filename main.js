@@ -37,11 +37,12 @@ var t=setInterval(debugPrint,1000);
 var happyWizards = [
     "Happy/AlbusDumbledore_Happy01.jpg",
     "Happy/Gandalf_Happy_01.gif",
-    "Happy/Gandalf_Happy_02.png",
+    //"Happy/Gandalf_Happy_02.png",
     "Happy/Gandalf_Happy_03.png",
     "Happy/Gandalf_Happy_04.gif"
 ];
 
+/*
 var neutralWizards = [
     "Neutral/AlbusDumbledore_Neautral_03.png",
     "Neutral/AlbusDumbledore_Neautral_01.png",
@@ -50,12 +51,13 @@ var neutralWizards = [
     "Neutral/Gandalf_Neutral_01.png",
     "Neutral/Gandalf_Neutral_02.png"
 ];
+*/
 
 var angryWizards = [
     "Angry/Dumbledore_Angry_01.png",
     "Angry/Dumbledore_Angry_04.png",
     "Angry/Gandalf_Angry_01.png",
-    "Angry/Gandalf_Angry_02.gif",
+    //"Angry/Gandalf_Angry_02.gif",
     "Angry/Gandalf_Angry_03.png",
     "Angry/Saruman_Angry_01.png"
 ];
