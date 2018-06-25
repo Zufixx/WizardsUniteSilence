@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Volume Meter Sample</title>
+		<style>
+            #meter {
+                border: 1px solid white;
+            }
+            body {
+                background-color:black;
+            }
+            p {
+                color:white;
+            }
+		</style>
+		<!-- Include the volume meter component -->
+		<script src="volume-meter.js"></script>
+		<!-- Include the main app logic -->
+		<script src="main.js"></script>
+	</head>
+	<body>
+        <center>
+            <canvas id="meter" width="500" height="50"></canvas><br/>
+            <input type="range" min="0" max="1" value="0.5" id="limitSlider" step="0.01" hidden><p id="limitText" hidden>0.5</p>
+            <input type="range" min="0" max="1" value="0.15" id="sensSlider" step="0.01" style="width:500px"><p id="sensetivity" hidden>1</p>
+            <p id="avg" hidden>Avg: </p>
+            <p id="volume" hidden>Volume: </p>
+            <p id="mood" hidden>Mood: </p>
+            <img src="" id="wizard" height="600"></img>
+        </center>
+	</body>
+</html>
