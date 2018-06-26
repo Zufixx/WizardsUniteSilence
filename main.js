@@ -23,12 +23,13 @@ var canvasContext = null;
 var WIDTH=500;
 var HEIGHT=50;
 var rafID = null;
-var BUFFER_SIZE = 500;
+var BUFFER_SIZE = 1000;
 var CLIPPING_LIMIT = 0.5;
 var bufferArray = new Array(BUFFER_SIZE);
 var bufferPointer = 0;
 var sensitivity = 0.5;
 var avg = 0;
+var angry = false;
 
 var lastMood = "";
 
@@ -62,10 +63,56 @@ var angryWizards = [
     "Angry/Saruman_Angry_01.png"
 ];
 
+var videos = [
+    "3xYXUeSmb-Y", // You shall not pass
+    "-s2rREf2Kj8",   // SILENCE
+    "lKaw5SjeHx0"   // Do not take me for some conjurer of cheap tricks
+];
+
 var currentWizards = happyWizards;
 
-window.onload = function() {
+// 2. This code loads the IFrame Player API code asynchronously.
+var tag = document.createElement('script');
 
+var playing = false;
+var done = false;
+
+tag.src = "https://www.youtube.com/iframe_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+// 3. This function creates an <iframe> (and YouTube player)
+//    after the API code downloads.
+var player;
+function onYouTubeIframeAPIReady() {
+player = new YT.Player('player', {
+    height: '600',
+    width: '1066',
+    videoId: '-s2rREf2Kj8',
+    events: {
+        onStateChange: onPlayerStateChange
+      }
+});
+}
+
+function onPlayerStateChange(event) {        
+    if(event.data === 0) {          
+        done = true;
+        playing = false;
+        currentWizards = angryWizards;
+        setWizardMood("Angry");
+        angry = true;
+        document.getElementById("player").hidden = true;
+        document.getElementById("wizard").hidden = false;
+        for(var i = 0; i < BUFFER_SIZE; i++) {
+            bufferArray[i] = 0;
+        }
+        avg = 0;
+    }
+}
+
+window.onload = function() {
+    document.getElementById("player").hidden = true;
     for(var i = 0; i < BUFFER_SIZE; i++) {
         bufferArray[i] = 0;
     }
@@ -163,13 +210,26 @@ function drawLoop( time ) {
         canvasContext.fillStyle = "green";
     }
 
-    if (avg > CLIPPING_LIMIT) {
+    if(avg >= 0.99 && !playing && !done) {
+        document.getElementById("wizard").hidden = true;
+        document.getElementById("player").hidden = false;
+        var rand = Math.floor(Math.random() * videos.length); 
+        player.loadVideoById(videos[rand]);
+        console.log(videos[rand]);
+        player.playVideo();
+        playing = true;
+    }
+    else if (avg > CLIPPING_LIMIT) {
         currentWizards = angryWizards;
         setWizardMood("Angry");
+        angry = true;
     }
-    else {
+    else if(avg < CLIPPING_LIMIT / 2 && angry || !angry) {
         currentWizards = happyWizards;
         setWizardMood("Happy");
+        angry = false;
+        done = false;
+        playing = false;
     }
 
     // draw a bar based on the current volume
