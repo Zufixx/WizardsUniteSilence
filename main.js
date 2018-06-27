@@ -210,7 +210,7 @@ function drawLoop( time ) {
         canvasContext.fillStyle = "green";
     }
 
-    if(avg >= 0.99 && !playing && !done) {
+    if(avg >= 0.9 && !playing && !done) {
         document.getElementById("wizard").hidden = true;
         document.getElementById("player").hidden = false;
         var rand = Math.floor(Math.random() * videos.length); 
